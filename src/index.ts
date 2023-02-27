@@ -68,7 +68,7 @@ app.get(`${apipath}/users`, (req, res) => {
 })
 
 db.connect().then((obj: any) => {
-  console.log("Sucesso na conn")
+  console.log("Connected")
   obj.done();
   app.listen(port, () => {
     console.log(`Listening on ${port}`);
