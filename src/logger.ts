@@ -1,5 +1,6 @@
 import { createLogger, format, transports } from "winston";
 
+// Logs to console with custom format
 export const logger = createLogger({
   level: "info",
   format: format.simple(),

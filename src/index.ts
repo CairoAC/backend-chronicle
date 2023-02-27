@@ -10,12 +10,13 @@ dotenv.config()
 const apipath = "/api/v1"
 
 // Users
-app.post(`${apipath}/users`, postUsers);
-app.get(`${apipath}/users`, getUsers);
+app.post(`${apipath}/user`, postUsers);
+app.get(`${apipath}/user`, getUsers);
 
 // Posts
 // ...
 
+// Initialize API if DB connection is successful
 db.connect().then((obj: any) => {
   const port = process.env.BACKEND_PORT;
 
