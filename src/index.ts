@@ -69,4 +69,6 @@ app.get(`${apipath}/users`, (req, res) => {
 
 app.listen(port, () => {
   console.log(`Listening on ${port}`);
+  // INFO// Creating user (name, id, )
+  // ERROR Cant
 })
