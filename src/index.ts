@@ -4,7 +4,7 @@ import { db } from "./database";
 import { app, port, apipath } from "./app";
 
 // Ao receber um request em /login:
-app.get("/crypto", (req, res) => {
+app.get("/crypto", (req: Request, res: Response) => {
 
 })
 
