@@ -14,14 +14,19 @@
   npm i
 ```
 
-Ir em `docker` e 
-
 ```sh
+  cd docker
   docker-compose up -d
 ```
 
 ```sh
   npm run dev
+```
+
+Para conectar com o pgAdmin, o IP do banco é obtido com:
+
+```sh
+  docker inspect <nome-do-container-do-banco>
 ```
 
 - pgAdmin em localhost:81
