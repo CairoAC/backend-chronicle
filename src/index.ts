@@ -1,15 +1,7 @@
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import { db } from "./database";
-import { app} from "./app"
-
-const apipath = "/api/v1"
-
-type UserPostRequest = Request<{
-  username: string,
-  email: string,
-  password: string
-}>
+import { app, port, apipath } from "./app";
 
 // Ao receber um request em /login:
 app.get("/crypto", (req, res) => {
@@ -53,14 +45,6 @@ app.get(`${apipath}/users`, (req, res) => {
   })
 })
 
-db.connect().then((obj: any) => {
-  console.log("Connected")
-  obj.done();
-  app.listen(port, () => {
-    console.log(`Listening on ${port}`);
-  })
-}).catch(err => {
-  console.log(err);
-  console.log("ABORT")
-  process.exit();
+app.listen(port, () => {
+  console.log(`Listening on ${port}`);
 })
