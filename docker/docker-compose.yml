@@ -1,0 +1,26 @@
+services:
+  database:
+    image: postgres:alpine3.17
+    volumes:
+      - ./db/users.sql:/docker-entrypoint-initdb.d/users.sql
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "teste_123"
+      POSTGRES_DB: "main"
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-anon@localhost.net}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-admin}
+      # - PGADMIN_SERVER_JSON_FILE=${PGADMIN_SERVER_JSON_FILE}
+    ports:
+      - "81:80"
+    # volumes:
+      # - ./servers.json:/pgadmin4/servers.json
+    depends_on:
+      - database
+    # profiles:
+    #   - donotstart
