@@ -1,5 +1,4 @@
-import express, { Request, Response } from "express";
-import bodyParser from "body-parser";
+import { app } from "./app";
 import { db } from "./database";
 import { app, port, apipath } from "./app";
 
