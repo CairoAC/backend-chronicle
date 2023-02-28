@@ -1,49 +1,33 @@
 import { app } from "./app";
 import { db } from "./database";
-import { app, port, apipath } from "./app";
+import { getUsers, postUsers } from "./handlers/users";
+import * as dotenv from 'dotenv'
+import { logger } from "./logger";
 
-// Ao receber um request em /login:
-app.get("/crypto", (req: Request, res: Response) => {
+const _e = process.env;
+dotenv.config()
 
-})
+const apipath = "/api/v1"
 
-// Como é POST, devemos criar um user
-app.post(`${apipath}/users`, (req, res) => {
-  const username = req.body.username;
-  const email = req.body.email;
-  const password = req.body.password;
+// Users
+app.post(`${apipath}/user`, postUsers);
+app.get(`${apipath}/user`, getUsers);
 
-  if (!username || !email || !password) {
-    res.statusCode = 403; // Nao autorizado
-    // res.send("Vacilou");
-    res.send(req.body)
-    return;
-  }
+// Posts
+// ...
 
+// Initialize API if DB connection is successful
+db.connect().then((obj: any) => {
+  const port = process.env.BACKEND_PORT;
 
-  // Gerar um hash com a senha, (licao de casa)
-  const dbstring = `
-    INSERT INTO users ("Username", "Email", "Password")
-    VALUES ('${username}', '${email}', '${password}')
-    RETURNING "ID"
-  `
-  db.one(dbstring).then((data: JSON) => {
-    res.send(data)
-  }).catch((err: any) => {
-    console.log(err)
-    res.send("FAIL")
+  logger.info(`DB connection success on ${_e.DB_HOST}:${_e.DB_PORT}`)
+
+  obj.done();
+  app.listen(port, () => {
+    logger.info(`API ready on (localhost?):${_e.BACKEND_PORT}`)
   })
-})
+}).catch(err => {
 
-app.get(`${apipath}/users`, (req, res) => {
-  db.any(`SELECT * FROM USERS LIMIT 1000`).then((data: any) => {
-    res.send(JSON.stringify(data))
-  }).catch(err => {
-    console.log(err)
-    res.send(err)
-  })
-})
-
-app.listen(port, () => {
-  console.log(`Listening on ${port}`);
+  logger.error(`DB Failed to connect on ${_e.DB_HOST}:${_e.DB_PORT}`)
+  process.exit();
 })
