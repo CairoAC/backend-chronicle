@@ -1,4 +1,4 @@
 INSERT INTO
-  users ("Username", "Email", "Password")
+  users ("username", "email", "password")
 VALUES
-  (${username}, ${email}, ${password}) RETURNING "ID"
+  (${username}, ${email}, ${password}) RETURNING "id"

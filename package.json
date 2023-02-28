@@ -11,8 +11,6 @@
   "main": "index.js",
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
-    "@types/pg-promise": "^5.4.3",
-    "@types/winston": "^2.4.4",
     "abbrev": "^1.1.1",
     "acorn": "^8.8.2",
     "acorn-walk": "^8.2.0",

@@ -1,15 +1,11 @@
 import pgPromise, { IDatabase } from "pg-promise";
 import { join } from "path";
+import { database as DB } from "./config/database.conf";
 
 const pgp = pgPromise({});
-const dbuser = "root";
-const dbpass = "teste_123";
-const dbhost = "localhost";
-const dbport = "5432";
-const db_database = "main";
 export let db: IDatabase<any>;
 
-db = pgp(`postgres://${dbuser}:${dbpass}@${dbhost}:${dbport}/${db_database}`);
+db = pgp(`postgres://${DB.config.username}:${DB.config.password}@${DB.config.host}:${DB.config.port}/${DB.config.database}`);
 
 export const sql = (file: string) => {
   const path = join(__dirname, file);

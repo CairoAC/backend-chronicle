@@ -1,33 +1,32 @@
 import { app } from "./app";
+import { app as APP } from "./config/app.conf";
+
 import { db } from "./database";
-import { getUsers, postUsers } from "./handlers/users";
-import * as dotenv from 'dotenv'
+import { database as DB } from "./config/database.conf";
+
+import { getUsers, postUsers } from "./handlers/user";
+
+import * as dotenv from "dotenv";
 import { logger } from "./logger";
 
-const _e = process.env;
-dotenv.config()
-
-const apipath = "/api/v1"
+// TODO: .env.development and production
+dotenv.config();
 
 // Users
-app.post(`${apipath}/user`, postUsers);
-app.get(`${apipath}/user`, getUsers);
-
-// Posts
-// ...
+app.post(`/${APP.config.path}/user`, postUsers);
+app.get(`/${APP.config.path}/user`, getUsers);
 
 // Initialize API if DB connection is successful
-db.connect().then((obj: any) => {
-  const port = process.env.BACKEND_PORT;
+db.connect()
+  .then((obj: any) => {
+    logger.info(`DB connection success on ${DB.config.host}:${DB.config.port}`);
 
-  logger.info(`DB connection success on ${_e.DB_HOST}:${_e.DB_PORT}`)
-
-  obj.done();
-  app.listen(port, () => {
-    logger.info(`API ready on (localhost?):${_e.BACKEND_PORT}`)
+    obj.done();
+    app.listen(APP.config.port as number, APP.config.host, () => {
+      logger.info(`API ready on ${APP.config.host}:${APP.config.port}`);
+    });
   })
-}).catch(err => {
-
-  logger.error(`DB Failed to connect on ${_e.DB_HOST}:${_e.DB_PORT}`)
-  process.exit();
-})
+  .catch((err) => {
+    logger.error(`DB Failed to connect on ${DB.config.host}:${DB.config.port}`);
+    process.exit();
+  });

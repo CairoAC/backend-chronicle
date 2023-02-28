@@ -1,4 +1,4 @@
 SELECT
-  ("Username", "Email")
+  ("username", "email")
 FROM
   users;
